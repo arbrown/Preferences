@@ -60,6 +60,7 @@ func AssignRoles(prefs []RolePreference) ([]RoleAssignment, int, error) {
 	return assignments, bestWeight, nil
 }
 
+// Get the name associated with a role ID
 func GetRoleName(i int) (string, error) {
 	// 1 - Trapper
 	// 2 - Medic
