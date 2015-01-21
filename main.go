@@ -43,13 +43,9 @@ func GeneratePermutations(values []int) <-chan []int {
 		done := false
 		for !done {
 			// Return the next lexicographical permutation
-			fmt.Println("About to return ", values)
 			retSlice := make([]int, len(values))
 			copy(retSlice, values)
-			c <- values
-			fmt.Println("Just returned ", retSlice)
-
-			//fmt.Println("values = ", values)
+			c <- retSlice
 
 			// Find the rightmost value smaller than the one after it
 			i := len(values) - 2
@@ -73,12 +69,10 @@ func GeneratePermutations(values []int) <-chan []int {
 					}
 				}
 				// and swap them
-				values[i] = values[i] ^ values[ceil]
-				values[ceil] = values[ceil] ^ values[i]
-				values[i] = values[i] ^ values[ceil]
+				values[i], values[ceil] = values[ceil], values[i]
 
 				// then sort the new subslice
-				sort.Ints(values[i+1 : ceil+1])
+				sort.Ints(values[i+1 : len(values)])
 
 			}
 		}
@@ -88,13 +82,8 @@ func GeneratePermutations(values []int) <-chan []int {
 }
 
 func main() {
-	i := 1
+
 	for combo := range GeneratePermutations([]int{1, 2, 3, 4, 5}) {
-		fmt.Println(i, " - ", combo)
-		i++
+
 	}
-	//c := GeneratePermutations([]int{1, 2, 3, 4, 5})
-	//fmt.Println(<-c)
-	//fmt.Println(<-c)
-	//fmt.Println(<-c)
 }
